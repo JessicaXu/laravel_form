@@ -23,6 +23,7 @@ class StudentController extends Controller
     // 新建学生页
     public function create(Request $request)
     {
+        $student = new Student();
         // 处理提交按钮的添加数据请求
         if($request->isMethod('POST')){
             // 1.控制器验证
@@ -72,7 +73,9 @@ class StudentController extends Controller
             }
         }
 
-        return view('student.create');
+        return view('student.create', [
+            'student' => $student
+        ]);
     }
 
     // 提交按钮

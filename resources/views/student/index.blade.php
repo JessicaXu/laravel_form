@@ -24,7 +24,7 @@
                         <th scope="row">{{ $student->id }}</th>
                         <td>{{ $student -> name }}</td>
                         <td>{{ $student -> age }}</td>
-                        <td>{{ $student -> sex }}</td>
+                        <td>{{ $student -> sex($student->sex) }}</td>
                         <td>{{ date('Y-m-d h:i:s', $student -> created_at) }}</td>
                         <td>
                             <a href="">详情</a>
