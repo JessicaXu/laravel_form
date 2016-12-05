@@ -1,4 +1,12 @@
 @if (count($errors))
+
+    <!-- 显示第一条错误提示 -->
+    <div class="alert alert-danger">
+        <ul>
+            <li>{{$errors ->first()}}</li>
+        </ul>
+    </div>
+
     <!-- 所有的错误提示 -->
     <div class="alert alert-danger">
         <ul>
@@ -7,4 +15,5 @@
             @endforeach
         </ul>
     </div>
+
 @endif

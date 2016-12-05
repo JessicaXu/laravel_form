@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class StudentController extends Controller
 {
@@ -20,19 +21,51 @@ class StudentController extends Controller
     }
 
     // 新建学生页
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         // 处理提交按钮的添加数据请求
         if($request->isMethod('POST')){
-            // 验证数据合法性
-            $this -> validate($request, [
+            // 1.控制器验证
+//            $this -> validate($request, [
+//                'Student.name' => 'required|min:2|max:20',
+//                'Student.age' => 'required|integer',
+//                'Student.sex' => 'required|integer'
+//            ], [
+//                'required' => ':attribute 为必填项',
+//                'min' => ':attribute 不少于两个字符',
+//                'max' => ':attribute 不超过20个字符',
+//                'integer' => ':attribute 必须为整数'
+//            ], [
+//                'Student.name' => '姓名',
+//                'Student.age' => '年龄',
+//                'Student.sex' => '性别'
+//            ]);
+
+            // 2.validator类验证
+            $validator = \Validator::make($request->input(), [
                 'Student.name' => 'required|min:2|max:20',
                 'Student.age' => 'required|integer',
                 'Student.sex' => 'required|integer'
+            ], [
+                'required' => ':attribute 为必填项',
+                'min' => ':attribute 不少于两个字符',
+                'max' => ':attribute 不超过20个字符',
+                'integer' => ':attribute 必须为整数'
+            ], [
+                'Student.name' => '姓名',
+                'Student.age' => '年龄',
+                'Student.sex' => '性别'
             ]);
+
+            if($validator -> fails())
+            {
+                return redirect() -> back() -> withErrors($validator) -> withInput();
+            }
 
             $data = $request->input('Student');
             // create需要设置批量赋值
-            if(Student::create($data)){
+            if(Student::create($data))
+            {
                 return redirect(url('student/index')) -> with('success', '添加成功');
             }else{
                 return redirect()->back() -> with('error', '添加失败');
@@ -43,7 +76,8 @@ class StudentController extends Controller
     }
 
     // 提交按钮
-    public function save(Request $request){
+    public function save(Request $request)
+    {
         $data = $request->input('Student');
 //        var_dump($data);
 
