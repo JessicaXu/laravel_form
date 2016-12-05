@@ -15,8 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('student/index', ['uses' => 'StudentController@index']);
-Route::get('student/create', ['uses' => 'StudentController@create']);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +29,8 @@ Route::get('student/create', ['uses' => 'StudentController@create']);
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    // Session用到web中间件，利用Session保存提示信息
+    Route::get('student/index', ['uses' => 'StudentController@index']);
+    Route::any('student/create', ['uses' => 'StudentController@create']);
+    Route::any('student/save', ['uses' => 'StudentController@save']);
 });

@@ -12,6 +12,8 @@ class Student extends Model
     // 保留系统维护的时间戳
     public $timestamp = true;
 
+    protected $fillable = ['name', 'age', 'sex'];
+
     // 设置时间
     protected function getDateFormat()
     {
